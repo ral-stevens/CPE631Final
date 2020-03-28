@@ -109,6 +109,8 @@ class Simulator {
   ros::Publisher pub_agent_states_;
   ros::Publisher pub_agent_groups_;
   ros::Publisher pub_robot_position_;
+  ros::Publisher pub_gazebo_model_state_;
+
 
   // provided services
   ros::ServiceServer srv_pause_simulation_;

@@ -37,6 +37,12 @@
 #include <pedsim_simulator/simulator.h>
 
 #include <pedsim_utils/geometry.h>
+#include <gazebo_msgs/ModelState.h>
+#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/Twist.h>
+#include <string>
+#include <iostream>
+
 
 using namespace pedsim;
 
@@ -52,6 +58,7 @@ Simulator::~Simulator() {
   pub_agent_states_.shutdown();
   pub_agent_groups_.shutdown();
   pub_robot_position_.shutdown();
+  pub_gazebo_model_state_.shutdown();
 
   srv_pause_simulation_.shutdown();
   srv_unpause_simulation_.shutdown();
@@ -78,6 +85,8 @@ bool Simulator::initializeSimulation() {
       nh_.advertise<pedsim_msgs::AgentGroups>("simulated_groups", queue_size);
   pub_robot_position_ =
       nh_.advertise<nav_msgs::Odometry>("robot_position", queue_size);
+  pub_gazebo_model_state_ = 
+      nh_.advertise<gazebo_msgs::ModelState>("/gazebo/set_model_state", queue_size);
 
   // services
   srv_pause_simulation_ = nh_.advertiseService(
@@ -287,6 +296,7 @@ void Simulator::publishAgents() {
     return gv;
   };
 
+  int ped_i = 0;
   for (const Agent* a : SCENE.getAgents()) {
     pedsim_msgs::AgentState state;
     state.header = createMsgHeader();
@@ -307,6 +317,36 @@ void Simulator::publishAgents() {
       state.social_state = pedsim_msgs::AgentState::TYPE_STANDING;
     }
 
+
+    // gazebo message update
+
+    double theta = atan2(a->getvy(), a->getvx()) + M_PI/2.0;
+    
+    gazebo_msgs::ModelState gazebo_ped_state;
+    std::string model_name_prefix = "person_standing_";
+    std::string str_ped_i = std::to_string(ped_i);
+    gazebo_ped_state.model_name = model_name_prefix + str_ped_i;
+
+    geometry_msgs::Pose pedPose;
+    pedPose.position.x = a->getx();
+    pedPose.position.y = a->gety();
+    pedPose.position.z = 0.0;
+    pedPose.orientation.x = 0;
+    pedPose.orientation.y = 0;
+    pedPose.orientation.z = sin(theta/2.0);
+    pedPose.orientation.w = cos(theta/2.0);
+    gazebo_ped_state.pose = pedPose;
+
+    geometry_msgs::Twist pedTwist;
+    pedTwist.linear.x = a->getvx();
+    pedTwist.linear.y = a->getvy();
+    pedTwist.linear.z = 0;
+    gazebo_ped_state.twist = pedTwist;
+
+    /// publish the messages
+    pub_gazebo_model_state_.publish(gazebo_ped_state);
+    //std::cout << "publishing";
+    ped_i++;
     // Skip robot.
     if (a->getType() == Ped::Tagent::ROBOT) {
       continue;
