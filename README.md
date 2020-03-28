@@ -1,54 +1,48 @@
-# Pedestrian Simulator
-<img src=https://github.com/srl-freiburg/pedsim_ros/blob/master/pedsim_simulator/images/crowd1.png width=400/> | <img src=https://github.com/srl-freiburg/pedsim_ros/blob/master/pedsim_simulator/images/costmap.png width=400/>
+# CPE631_final_sample, Human Robot Interaction Environment
+### Requirements:
+* Ubuntu 18.04
+* ROS – Melodic
+* The simulation environment is not guaranteed to work with any other ROS or Ubuntu environment.
+### Pre-requisites:
+1. C++11 compiler which is basically gcc/g++. Please check the version of gcc to make sure your installed version can support this feature.
+2. Gazebo-ROS packages, which should come with a Desktop-full installation of ROS Melodic.
+### Running Instructions:
+1. Suppose you have made a catkin workspace named `catkin_ws`.
+1. Once you are finished with all the dependencies, you can git clone this package from github into your ROS workspace and `catkin_make` it. Once you download it, shut down your machine and restart it before you run catkin_make. 
+    ```shell
+    cd ~/catkin_ws/src
+    git clone --recurse-submodules https://github.com/ral-stevens/CPE631Final.git
+    cd ~/catkin_ws
+    catkin_make
+    ```
+1. If you installed all dependencies correctly, you shouldn’t get any errors.
+1. You can run the environment by executing
+    ```shell
+    roslaunch pedsim_simulator Altorfer_f1.launch
+    ```
+1. Once you successfully run the node, you will see topic related to laser range finder, Kinect camera and controlling the velocity of the robot. You can subscribe to and publish to these topics in your own controller to get the sensor information and publish the desired velocities to move the robot.
+* Linear and angular velocity topic:
+    ```shell
+    /Pioneer3AT/cmd_vel
+    ```
+* Laser Range finder topic:
+    ```shell
+    /laser/scan
+    ```
+* Pose of each model in the world:
+    ```shell
+    /gazebo/model_states
+    ```
+* Kinect topics (There are several topics, you can choose the ones you need):
+    ```shell
+    /camera/*
+    ```
+### Sample screencast
+![Alt Text](other/sample.gif)
 
-ROS packages for a 2D pedestrian simulator based on social force
-model of [Helbing et. al](http://arxiv.org/pdf/cond-mat/9805244.pdf). The implementation is based on an extended version of Christian Gloor's [libpedsim](http://pedsim.silmaril.org/) library which has been extended to include additional behaviors and activities. This packages is useful for robot navigation experiments with crowded scenes which are hard to acquire in practice.
-
-### Features
-- Individual walking using social force model for very large crowds in real time
-- Group walking using the extended social force model
-- Social activities simulation
-- Sensors simulation (point clouds in robot frame for people and walls)
-- XML based scene design
-- Extensive visualization using Rviz
-- Option to connect with gazebo for physics reasoning
-
-### Requirements
-- ROS with the visualization stack (currently tested on `hydro`, `indigo`, `kinetic` ). For melodic, see the branch `melodic-dev`
-- C++11 compiler
-
-### Installation
-
-The default version is now `melodic`. For kinetic please check out the branch `kinetic` which still depends on Qt4.
-
-```
-cd [workspace]/src
-git clone https://github.com/srl-freiburg/pedsim_ros.git  
-cd pedsim_ros
-git submodule update --init --recursive
-cd ../..
-catkin build -c  # or catkin_make
-```
-
-### Sample usage
-```
-roslaunch pedsim_simulator simple_pedestrians.launch
-```
-### Licence
-The core `libpedsim` is licensed under LGPL. The ROS integration and extensions are licensed under BSD.
-
-### Developers
-* Billy Okal
-* Timm Linder
 
 
-### Contributors
-* Dizan Vasquez
-* Sven Wehner
-* Omar Islas
-* Luigi Palmieri
 
-The package is a **work in progress** mainly used in research prototyping. Pull requests and/or issues are highly encouraged.
 
-### Acknowledgements
-These packages have been developed in part during the EU FP7 project [SPENCER](spencer.eu)
+## Acknowledgement
+Muhammad Fahad made this simulation based on [pedsim_ros](https://github.com/srl-freiburg/pedsim_ros).
