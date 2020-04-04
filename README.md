@@ -4,11 +4,11 @@
 * ROS – Melodic
 * The simulation environment is not guaranteed to work with any other ROS or Ubuntu environment.
 ### Pre-requisites:
-1. C++11 compiler which is basically gcc/g++. Please check the version of gcc to make sure your installed version can support this feature.
+1. C++11 compiler which is basically gcc/g++.
 2. Gazebo-ROS packages, which should come with a Desktop-full installation of ROS Melodic.
 ### Running Instructions:
 1. Suppose you have made a catkin workspace named `catkin_ws`.
-1. Once you are finished with all the dependencies, you can git clone this package from github into your ROS workspace and `catkin_make` it. Once you download it, shut down your machine and restart it before you run catkin_make. 
+1. Once you are finished with all the dependencies, you can git clone this package from github into your ROS workspace and `catkin_make` it. 
     ```shell
     cd ~/catkin_ws/src
     git clone --recurse-submodules https://github.com/ral-stevens/CPE631Final.git
@@ -20,7 +20,11 @@
     ```shell
     roslaunch pedsim_simulator Altorfer_f1.launch
     ```
-1. Once you successfully run the node, you will see topic related to laser range finder, Kinect camera and controlling the velocity of the robot. You can subscribe to and publish to these topics in your own controller to get the sensor information and publish the desired velocities to move the robot.
+    and then you should be able to see something as follows.
+
+    ![Alt Text](other/sample.gif)
+
+1. Once you successfully run the node, you will see topic related to laser range finder, Kinect camera and controlling the velocity of the robot. You can subscribe to and publish on these topics in your own controller to get the sensor information and publish the desired velocities to move the robot.
 * Linear and angular velocity topic:
     ```shell
     /Pioneer3AT/cmd_vel
@@ -37,10 +41,11 @@
     ```shell
     /camera/*
     ```
-### Sample screencast
-![Alt Text](other/sample.gif)
+## Reporting Issues
+If something is not working or you have any questions, please report it with a [GitHub Issue](https://github.com/ral-stevens/CPE631Final/issues).
 
-
+## Maintainer
+* [Zhuo Chen](zchenpds@gmail.com)
 
 
 

@@ -179,6 +179,11 @@ Ped::Tvector Ped::Tagent::socialForce() const {
         forceAngleAmount * interactionDirection.leftNormalVector();
 
     force += forceVelocity + forceAngle;
+    
+    // // Try this extra component in social force
+    // double AA = 0.6, BB = 0.5, r = 0.7;
+    // Tvector myForce = - AA * exp((r - diff.length())/BB) * diffDirection;
+    // force += myForce;
   }
 
   return force;
