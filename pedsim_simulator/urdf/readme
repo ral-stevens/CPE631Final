@@ -1,0 +1,17 @@
+To remove inertial: 
+
+<inertial>[\n\s\S]*?</inertial>[\n\s]*(?=<)
+
+To modify the box:
+
+<box>[\n\s]*<size>([.0-9 ]*)</size>[\s]*</box>
+<box size="$1"/>
+
+<cylinder>[\n\s]*<radius>([.0-9 ]*)</radius>[\s]*<length>([.0-9 ]*)</length>[\s]*</cylinder>
+<cylinder radius="$1" length="$2"/>
+
+<parent>([A-z0-9:]*)</parent>
+<parent link="$1"/>
+
+<child>([A-z0-9:]*)</child>
+<child link="$1"/>

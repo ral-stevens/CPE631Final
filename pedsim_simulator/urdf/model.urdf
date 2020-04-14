@@ -1,0 +1,330 @@
+<?xml version='1.0'?>
+
+<robot name='my_robot'>
+  <material name="shelf_material">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+  <material name="pole_material">
+    <color rgba="0.7 0.7 0.7 1.0"/>
+  </material>
+
+  <link name='chassis'>
+    <collision name='collision'>
+      <geometry>
+        <box size="0.501 0.4 0.19"/>
+      </geometry>
+      <max_contacts>10</max_contacts>
+      <surface>
+        <bounce/>
+        <friction>
+          <ode/>
+        </friction>
+        <contact>
+          <ode/>
+        </contact>
+      </surface>
+    </collision>
+    <visual name='visual'>
+      <geometry>
+        <mesh filename="package://pedsim_simulator/urdf/p3at_meshes/chassis.stl"/>
+      </geometry>
+    </visual>
+    <velocity_decay>
+      <linear>0</linear>
+      <angular>0</angular>
+    </velocity_decay>
+    <self_collide>0</self_collide>
+    <kinematic>0</kinematic>
+    <gravity>1</gravity>
+  </link>
+
+  <link name="base_link"/>
+
+  <joint name="chassis_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="chassis"/>
+  </joint>
+
+
+
+  
+
+
+  <!-- right_front_wheel -->
+  <link name='right_front_wheel'>
+    <origin xyz="0.125 -0.201 -0.06" rpy="1.5707 -0 0"/>
+    <collision name='collision'>
+      <geometry>
+        <cylinder radius="0.11" length="0.075"/>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1</mu>
+            <mu2>1</mu2>
+            <slip1>0.5</slip1>
+            <slip2>0</slip2>
+          </ode>
+        </friction>
+        <bounce/>
+        <contact>
+          <ode/>
+        </contact>
+      </surface>
+      <max_contacts>10</max_contacts>
+    </collision>
+    <visual name='visual'>
+      <geometry>
+        <mesh filename="package://pedsim_simulator/urdf/p3at_meshes/wheel.stl"/>
+      </geometry>
+    </visual>
+    <velocity_decay>
+      <linear>0</linear>
+      <angular>0</angular>
+    </velocity_decay>
+    <self_collide>0</self_collide>
+    <kinematic>0</kinematic>
+    <gravity>1</gravity>
+  </link>
+
+  <joint name='right_front_wheel_joint' type='fixed'>
+    <origin xyz="0 0 0" rpy="0 -0 0"/>
+    <child link="right_front_wheel"/>
+    <parent link="chassis"/>
+    <axis>
+      <xyz>0 1 0</xyz>
+      <limit>
+        <lower>-1e+16</lower>
+        <upper>1e+16</upper>
+      </limit>
+    </axis>
+  </joint>
+
+
+  <!-- left_front_wheel -->
+  <link name='left_front_wheel'>
+    <collision name='collision'>
+      <geometry>
+        <cylinder radius="0.11" length="0.075"/>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1</mu>
+            <mu2>1</mu2>
+            <slip1>0.5</slip1>
+            <slip2>0</slip2>
+          </ode>
+        </friction>
+        <bounce/>
+        <contact>
+          <ode/>
+        </contact>
+      </surface>
+      <max_contacts>10</max_contacts>
+    </collision>
+    <visual name='visual'>
+      <geometry>
+        <mesh filename="package://pedsim_simulator/urdf/p3at_meshes/wheel.stl"/>
+      </geometry>
+    </visual>
+    <velocity_decay>
+      <linear>0</linear>
+      <angular>0</angular>
+    </velocity_decay>
+    <self_collide>0</self_collide>
+    <kinematic>0</kinematic>
+    <gravity>1</gravity>
+  </link>
+
+  <joint name='left_front_wheel_joint' type='fixed'>
+    <origin xyz="0.125 0.201 -0.06" rpy="1.5707 -0 0"/>
+    <child link="left_front_wheel"/>
+    <parent link="chassis"/>
+    <axis>
+      <xyz>0 1 0</xyz>
+      <limit>
+        <lower>-1e+16</lower>
+        <upper>1e+16</upper>
+      </limit>
+    </axis>
+  </joint>
+  
+
+
+  <!-- right_rear_wheel -->
+  <link name='right_rear_wheel'>
+    <collision name='collision'>
+      <geometry>
+        <cylinder radius="0.11" length="0.075"/>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1</mu>
+            <mu2>1</mu2>
+            <slip1>0.5</slip1>
+            <slip2>0</slip2>
+          </ode>
+        </friction>
+        <bounce/>
+        <contact>
+          <ode/>
+        </contact>
+      </surface>
+      <max_contacts>10</max_contacts>
+    </collision>
+    <visual name='visual'>
+      <geometry>
+        <mesh filename="package://pedsim_simulator/urdf/p3at_meshes/wheel.stl"/>
+      </geometry>
+    </visual>
+    <velocity_decay>
+      <linear>0</linear>
+      <angular>0</angular>
+    </velocity_decay>
+    <self_collide>0</self_collide>
+    <kinematic>0</kinematic>
+    <gravity>1</gravity>
+  </link>
+
+  <joint name='right_rear_wheel_joint' type='fixed'>
+    <origin xyz="-0.125 -0.201 -0.06" rpy="1.5707 -0 0"/>
+    <child link="right_rear_wheel"/>
+    <parent link="chassis"/>
+    <axis>
+      <xyz>0 1 0</xyz>
+      <limit>
+        <lower>-1e+16</lower>
+        <upper>1e+16</upper>
+      </limit>
+    </axis>
+  </joint>
+
+
+  <!-- left_rear_wheel -->
+  <link name='left_rear_wheel'>
+    <collision name='collision'>
+      <geometry>
+        <cylinder radius="0.11" length="0.075"/>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1</mu>
+            <mu2>1</mu2>
+            <slip1>0.5</slip1>
+            <slip2>0</slip2>
+          </ode>
+        </friction>
+        <bounce/>
+        <contact>
+          <ode/>
+        </contact>
+      </surface>
+      <max_contacts>10</max_contacts>
+    </collision>
+    <visual name='visual'>
+      <geometry>
+        <mesh filename="package://pedsim_simulator/urdf/p3at_meshes/wheel.stl"/>
+      </geometry>
+    </visual>
+    <velocity_decay>
+      <linear>0</linear>
+      <angular>0</angular>
+    </velocity_decay>
+    <self_collide>0</self_collide>
+    <kinematic>0</kinematic>
+    <gravity>1</gravity>
+  </link>
+  
+  <joint name='left_rear_wheel_joint' type='fixed'>
+    <origin xyz="-0.125 0.201 -0.06" rpy="0 1.5707 0"/>
+    <child link="left_rear_wheel"/>
+    <parent link="chassis"/>
+    <axis>
+      <xyz>0 1 0</xyz>
+      <limit>
+        <lower>-1e+16</lower>
+        <upper>1e+16</upper>
+      </limit>
+    </axis>
+  </joint>
+
+
+
+    <link name="hokuyo">
+      <visual name="visual">
+        <geometry>
+          <mesh filename="package://gazebo_plugins/test/multi_robot_scenario/meshes/laser/hokuyo.dae"/>
+        </geometry>
+      </visual>
+      <sensor type="ray" name="head_hokuyo_sensor">
+        <origin xyz="0.15 0.0 0.13" rpy="0 0 0"/>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>640</samples>
+              <resolution>1</resolution>
+              <min_angle>-2.26889</min_angle>
+              <max_angle>2.268899</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.08</min>
+            <max>10</max>
+            <resolution>0.01</resolution>
+          </range>
+        </ray>
+
+        <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so"/>
+	      <robotNamespace></robotNamespace>
+        <topicName>laser/scan</topicName>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+      </sensor>
+    </link>
+
+    <joint name="hokuyo_joint" type="fixed">
+      <child link="hokuyo"/>
+      <parent link="chassis"/>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <upper>0</upper>
+          <lower>0</lower>
+        </limit>
+      </axis>
+    </joint>
+
+    <origin xyz="0.17 0.0 0.65" rpy="0 0 0"/>
+
+    <link name="kinect_link">
+      <origin xyz="0 0 0.036" rpy="0 0 0"/>
+      <collision name="collision">
+        <geometry>
+          <box size="0.073000 0.276000 0.072000"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh filename="package://pedsim_simulator/urdf/meshes/kinect.dae"/>
+        </geometry>
+      </visual>
+    </link>
+
+
+    <joint name="kinect_joint" type="fixed">
+      <child link="kinect_link"/>
+      <parent link="chassis"/>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <upper>0</upper>
+          <lower>0</lower>
+        </limit>
+      </axis>
+    </joint>
+</robot>
