@@ -154,22 +154,22 @@ void SimVisualizer::publishObstacleVisuals() {
   walls_marker.header.frame_id = "odom";
   walls_marker.header.stamp = ros::Time();
   walls_marker.id = 10000;
-  walls_marker.color.a = 1.0;
+  walls_marker.color.a = 0.4;
   walls_marker.color.r = 0.647059;
   walls_marker.color.g = 0.164706;
   walls_marker.color.b = 0.164706;
-  walls_marker.scale.x = 1.0;
-  walls_marker.scale.y = 1.0;
+  walls_marker.scale.x = 0.1;
+  walls_marker.scale.y = 0.1;
   walls_marker.scale.z = 2.0;
   walls_marker.pose.position.z = walls_marker.scale.z / 2.0;
   walls_marker.type = visualization_msgs::Marker::CUBE_LIST;
 
   for (const auto& line : current_obstacles->obstacles) {
-    for (const auto& cell : LineObstacleToCells(line.start.x, line.start.y,
-                                                line.end.x, line.end.y)) {
+    MyWall my_wall(line.start.x, line.start.y, line.end.x, line.end.y);
+    for (const auto& cell : my_wall.pillars) {
       geometry_msgs::Point p;
-      p.x = cell.first;
-      p.y = cell.second;
+      p.x = cell.x;
+      p.y = cell.y;
       p.z = 0.0;
       walls_marker.points.push_back(p);
     }
