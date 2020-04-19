@@ -776,13 +776,13 @@
     <origin xyz="0.17 0 0.65" rpy="0 0 0"/>
     <child link="kinect_link"/>
     <parent link="top_plate"/>
-    <axis>
-      <xyz>0 0 1</xyz>
-      <limit>
-        <upper>0</upper>
-        <lower>0</lower>
-      </limit>
-    </axis>
+  </joint>
+
+  <link name="camera_depth_optical_frame"/>
+  <joint name="camera_depth_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    <child link="camera_depth_optical_frame"/>
+    <parent link="kinect_link"/>
   </joint>
 
   <!-- Laser range finder -->
