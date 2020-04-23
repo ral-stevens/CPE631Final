@@ -18,7 +18,7 @@
 1. If you installed all dependencies correctly, you shouldn’t get any errors.
 1. You can run the environment by executing
     ```shell
-    roslaunch pedsim_simulator Altorfer_f1.launch
+    roslaunch pedsim_simulator Altorfer_f1.launch rviz:=true teleop:=true navstack:=true
     ```
     and then you should be able to see something as follows.
 
