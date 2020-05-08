@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This scenario file was created by SGDiCoP on 2014-04-16T15:14:48-->
+<scenario>
+    <!--Obstacles-->
+    <obstacle x1="0" y1="0" x2="0" y2="-9.1"/>
+    <obstacle x1="0" y1="-9.1" x2="7.5" y2="-9.1"/>
+    <obstacle x1="7.5" y1="-9.1" x2="7.5" y2="-2.5"/>
+    <obstacle x1="7.5" y1="-2.5" x2="13" y2="-2.5"/>
+    <obstacle x1="13" y1="-2.5" x2="13" y2="-5.0"/>
+    <obstacle x1="13" y1="-5.0" x2="15.5" y2="-5.0"/>
+    <obstacle x1="15.5" y1="-5.0" x2="15.5" y2="0"/>
+    <obstacle x1="15.5" y1="0.0" x2="0.0" y2="0.0"/>
+    <obstacle x1="0.0" y1="-2.5" x2="5.5" y2="-2.5"/>
+
+
+    <!--Waypoints (incl. WaitingQueues)-->
+    <waypoint id="w1" x="1" y="1" r="1"/>
+    <waypoint id="w2" x="1" y="5" r="1"/>
+    <waypoint id="w3" x="5" y="5" r="1"/>
+    <waypoint id="w4" x="5" y="1" r="1"/>
+
+    <!--Attractions-->
+<!--     <attraction id="Bookshop" x="27" y="15" width="5" height="10" strength="1"/> -->
+<!--     <attraction id="starbucksky" x="3" y="15" width="5" height="10" strength="2"/> -->
+    <!--Agents-->
+    <agent x="1" y="1" n="1" dx="0" dy="0" type="1">
+        <addwaypoint id="w1"/>
+        <addwaypoint id="w2"/>
+        <addwaypoint id="w3"/>
+        <addwaypoint id="w4"/>
+    </agent>
+    <agent x="1" y="2" n="1" dx="0" dy="0" type="1">
+        <addwaypoint id="w1"/>
+        <addwaypoint id="w2"/>
+        <addwaypoint id="w3"/>
+        <addwaypoint id="w4"/>
+    </agent>
+    <agent x="1" y="3" n="1" dx="0" dy="0" type="1">
+        <addwaypoint id="w1"/>
+        <addwaypoint id="w2"/>
+        <addwaypoint id="w3"/>
+        <addwaypoint id="w4"/>
+    </agent>
+    <agent x="1" y="4" n="1" dx="0" dy="0" type="1">
+        <addwaypoint id="w1"/>
+        <addwaypoint id="w2"/>
+        <addwaypoint id="w3"/>
+        <addwaypoint id="w4"/>
+    </agent>
+    <agent x="1" y="5" n="1" dx="0" dy="0" type="1">
+        <addwaypoint id="w1"/>
+        <addwaypoint id="w2"/>
+        <addwaypoint id="w3"/>
+        <addwaypoint id="w4"/>
+    </agent>
+
+
+</scenario>
