@@ -8,6 +8,8 @@ import math
 from gazebo_msgs.msg import ModelState 
 from gazebo_msgs.srv import SetModelState
 
+from geometry_msgs.msg import PoseWithCovarianceStamped
+
 def main():
     rospy.init_node('set_robot_state')
 
@@ -40,6 +42,18 @@ def main():
 
     except rospy.ServiceException, e:
         print "Service call failed: %s" % e
+
+    pub_initialpose = rospy.Publisher('/initialpose', PoseWithCovarianceStamped, queue_size=1)
+    msg_initialpose = PoseWithCovarianceStamped()
+    msg_initialpose.header.frame_id = 'map'
+    msg_initialpose.header.stamp = rospy.Time.now()
+    msg_initialpose.pose.pose = state_msg.pose
+    msg_initialpose.pose.covariance[0] = 0.25 # cov x
+    msg_initialpose.pose.covariance[7] = 0.25 # cov y
+    msg_initialpose.pose.covariance[35] = 0.0685 # cov th
+    rospy.sleep(1.0)
+    pub_initialpose.publish(msg_initialpose)
+    rospy.loginfo('Published initial pose')
 
 if __name__ == '__main__':
     try:
