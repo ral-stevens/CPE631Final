@@ -4,6 +4,7 @@
   <arg name="teleop" default="false"/>
   <arg name="mapping" default="false"/>
   <arg name="localization" default="false"/>
+  <arg name="map_path" default="/tmp/my_map.yaml"/>
   
 
   <!-- params -->
@@ -18,23 +19,40 @@
   <!-- Visualizer -->
   <include file="$(find pedsim_visualizer)/launch/visualizer.launch"/>
 
-  <!-- Rviz -->
-  <group unless="$(eval arg('mapping') or arg('localization'))">
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pedsim_simulator)/rviz/altorfer_f1.rviz" if="$(arg rviz)"/>
-  </group>
-
   <!-- Teleop -->
   <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering" if="$(arg teleop)">
     <remap from="/cmd_vel" to="/Pioneer3AT/cmd_vel" />
   </node>
 
-  <!-- Localization -->
+  <!-- Localization Mode -->
+  <!-- Issue: initial pose for amcl is hardcoded and needs to be updated along with world file -->
   <group if="$(arg localization)">
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pedsim_simulator)/rviz/altorfer_f1_nav.rviz" if="$(arg rviz)"/>
-    <!-- TO-DO -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pedsim_simulator)/rviz/altorfer_f1_nav.rviz"/>
+    <node name="pedsim_simulator" pkg="pedsim_simulator" type="pedsim_simulator" output="screen">
+      <!-- 0 - headless, 1 - minimal, 2 - full -->
+      <param name="visual_mode" value="2" type="int"/>
+      <param name="scene_file" value="$(find pedsim_simulator)scenarios/altorfer_empty.xml" type="string"/>
+      <param name="default_queue_size" value="10"/>
+      <!-- param name="max_robot_speed" value="1.5" type="double"/-->
+      <param name="robot_mode" value="1" type="int"/>
+      <param name="enable_groups" value="false" type="bool"/>
+    </node>
+    <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_path)" required="true"/>
+    <node pkg="amcl" type="amcl" name="amcl">
+      <remap from="/scan" to="/laser/scan"/>
+      <param name="initial_pose_x" value="2.7"/>
+      <param name="initial_pose_y" value="-8.6"/>
+      <param name="initial_pose_a" value="1.5"/>
+    </node>
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+      <remap from="/cmd_vel" to="/Pioneer3AT/cmd_vel" />
+      <rosparam file="$(find pedsim_simulator)/params/move_base.yaml" command="load" />
+      <rosparam file="$(find pedsim_simulator)/params/costmap_common.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find pedsim_simulator)/params/costmap_common.yaml" command="load" ns="local_costmap" />
+    </node>
   </group>
 
-  <!-- mapping -->
+  <!-- Mapping Mode -->
   <group if="$(arg mapping)">
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pedsim_simulator)/rviz/altorfer_f1_nav.rviz"/>
     <node name="gmapping" pkg="gmapping" type="slam_gmapping" launch-prefix="bash -c 'sleep 10.0; $0 $@ scan:=/laser/scan'"/>
@@ -49,60 +67,27 @@
     </node>
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
       <remap from="/cmd_vel" to="/Pioneer3AT/cmd_vel" />
-      <param name="/global_costmap/width" value="50.0" />
-      <param name="/global_costmap/height" value="50.0" />
-      <param name="/global_costmap/origin_x" value="-25.0" />
-      <param name="/global_costmap/origin_y" value="-25.0" />
-      <param name="/global_costmap/static_map" value="false" />
-      <param name="/global_costmap/rolling_window" value="false" />
-
-      <param name="/local_costmap/width" value="6.0" />
-      <param name="/local_costmap/height" value="6.0" />
-      <param name="/local_costmap/origin_x" value="-3.0" />
-      <param name="/local_costmap/origin_y" value="-3.0" />
-      <param name="/local_costmap/static_map" value="false" />
-      <param name="/local_costmap/rolling_window" value="true" />
-
-      <param name="/TrajectoryPlannerROS/max_vel_x" value="1.4" />
-      <param name="/TrajectoryPlannerROS/max_vel_y" value="0.0" />
-      <param name="/TrajectoryPlannerROS/max_vel_theta" value="2.0" />
-      <param name="/TrajectoryPlannerROS/min_in_place_vel_theta" value="1.4" />
-      <param name="/TrajectoryPlannerROS/acc_lim_theta" value="1.7" />
-      <param name="/TrajectoryPlannerROS/acc_lim_x" value="0.3" />
-      <param name="/TrajectoryPlannerROS/holonomic_robot" value="false" />
-
-      <param name="/global_costmap/observation_sources" value="laser_scan_sensor" />
-      <param name="/global_costmap/laser_scan_sensor/sensor_frame" value="hokuyo" />
-      <param name="/global_costmap/laser_scan_sensor/data_type" value="LaserScan" />
-      <param name="/global_costmap/laser_scan_sensor/topic" value="/laser/scan" />
-      <param name="/global_costmap/laser_scan_sensor/marking" value="true" />
-      <param name="/global_costmap/laser_scan_sensor/clearing" value="true" />
-      <param name="/global_costmap/robot_radius" value="0.4" />
-      <param name="/global_costmap/inflation_radius" value="0.4" />
-      <param name="/local_costmap/observation_sources" value="laser_scan_sensor" />
-      <param name="/local_costmap/laser_scan_sensor/sensor_frame" value="hokuyo" />
-      <param name="/local_costmap/laser_scan_sensor/data_type" value="LaserScan" />
-      <param name="/local_costmap/laser_scan_sensor/topic" value="/laser/scan" />
-      <param name="/local_costmap/laser_scan_sensor/marking" value="true" />
-      <param name="/local_costmap/laser_scan_sensor/clearing" value="true" />
-      <param name="/local_costmap/robot_radius" value="0.3" />
-      <param name="/local_costmap/inflation_radius" value="0.4" />
-
-
+      <rosparam file="$(find pedsim_simulator)/params/move_base.yaml" command="load" />
+      <rosparam file="$(find pedsim_simulator)/params/costmap_common.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find pedsim_simulator)/params/costmap_common.yaml" command="load" ns="local_costmap" />
     </node>
   </group>
 
-  <!-- pedestrian dynamics simulator. Note that this node could simulate robots but here it doesn't as specified by the *.xml file  -->
-  <node name="pedsim_simulator" pkg="pedsim_simulator" type="pedsim_simulator" unless="$(arg mapping)" output="screen">
-    <!-- 0 - headless, 1 - minimal, 2 - full -->
-    <param name="visual_mode" value="2" type="int"/>
-    <param name="scene_file" value="$(find pedsim_simulator)scenarios/altorfer.xml" type="string"/>
-    <param name="default_queue_size" value="10"/>
-    <!-- param name="max_robot_speed" value="1.5" type="double"/-->
-    <param name="robot_mode" value="1" type="int"/>
-    <param name="enable_groups" value="false" type="bool"/>
-  </node>
-
+  <!-- Neither-mapping-nor-localization -->
+  <group unless="$(eval arg('mapping') or arg('localization'))">
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pedsim_simulator)/rviz/altorfer_f1.rviz" if="$(arg rviz)"/>
+    <!-- pedestrian dynamics simulator. Note that this node could simulate robots but here it doesn't as specified by the *.xml file  -->
+    <node name="pedsim_simulator" pkg="pedsim_simulator" type="pedsim_simulator" output="screen">
+      <!-- 0 - headless, 1 - minimal, 2 - full -->
+      <param name="visual_mode" value="2" type="int"/>
+      <param name="scene_file" value="$(find pedsim_simulator)scenarios/altorfer.xml" type="string"/>
+      <param name="default_queue_size" value="10"/>
+      <!-- param name="max_robot_speed" value="1.5" type="double"/-->
+      <param name="robot_mode" value="1" type="int"/>
+      <param name="enable_groups" value="false" type="bool"/>
+    </node>
+  </group>
+  
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find pedsim_simulator)/worlds/altorfer_v2.world"/>
   </include>

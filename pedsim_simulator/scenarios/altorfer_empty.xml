@@ -14,10 +14,10 @@
 
 
     <!--Waypoints (incl. WaitingQueues)-->
-    <waypoint id="w1" x="1" y="1" r="1"/>
-    <waypoint id="w2" x="1" y="5" r="1"/>
-    <waypoint id="w3" x="5" y="5" r="1"/>
-    <waypoint id="w4" x="5" y="1" r="1"/>
+    <waypoint id="w4" x="1" y="1" r="1"/>
+    <waypoint id="w1" x="1" y="5" r="1"/>
+    <waypoint id="w2" x="5" y="5" r="1"/>
+    <waypoint id="w3" x="5" y="1" r="1"/>
 
     <!--Attractions-->
 <!--     <attraction id="Bookshop" x="27" y="15" width="5" height="10" strength="1"/> -->
