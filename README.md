@@ -7,8 +7,12 @@
 1. C++11 compiler which is basically gcc/g++.
 2. Gazebo-ROS packages, which should come with a Desktop-full installation of ROS Melodic.
 ### Running Instructions:
-1. Suppose you have made a catkin workspace named `catkin_ws`.
-1. Once you are finished with all the dependencies, you can git clone this package from github into your ROS workspace and `catkin_make` it. 
+1. Install dependencies:
+    ```shell
+    sudo apt install ros-melodic-navigation
+    ```
+3. Suppose you have made a catkin workspace named `catkin_ws`.
+4. Once you are finished with all the dependencies, you can git clone this package from github into your ROS workspace and `catkin_make` it. 
     ```shell
     cd ~/catkin_ws/src
     git clone --recurse-submodules https://github.com/ral-stevens/CPE631Final.git
@@ -18,7 +22,7 @@
 1. If you installed all dependencies correctly, you shouldn’t get any errors.
 1. You can run the environment by executing
     ```shell
-    roslaunch pedsim_simulator Altorfer_f1.launch rviz:=true teleop:=true navstack:=true
+    roslaunch pedsim_simulator Altorfer_f1.launch rviz:=true teleop:=true
     ```
     and then you should be able to see something as follows.
 
@@ -43,9 +47,6 @@
     ```
 ## Reporting Issues
 If something is not working or you have any questions, please report it with a [GitHub Issue](https://github.com/ral-stevens/CPE631Final/issues).
-
-## Maintainer
-* [Zhuo Chen](zchenpds@gmail.com)
 
 
 
